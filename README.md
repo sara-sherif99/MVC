@@ -3,7 +3,9 @@
 First lab
 
 A ASP.NET Core Web App that is consisted of two pages
+
 1- First page contains two different ways to view a list of cars.
+
 2- Second page contains details about each car.
 
 Used Razor view engine features., Render Methods, Query string parameters, and tried to achieve DRY principle.
