@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tickets.BL;
+using Tickets.BL.Managers.Departments;
+using Tickets.BL.Managers.Developers;
+using Tickets.BL.Managers.Tickets;
 using Tickets.BL.ViewModels;
 using Tickets.DAL.Models;
 
@@ -8,10 +10,14 @@ namespace Tickets.MVC.Controllers
     public class TicketsController : Controller
     {
         private readonly ITicketsManager _ticketsManager;
+        private readonly IDepartmentsManager _departmentsManager;
+        private readonly IDevelopersManager _developersManager;
 
-        public TicketsController(ITicketsManager ticketsManager)
+        public TicketsController(ITicketsManager ticketsManager, IDepartmentsManager departmentsManager, IDevelopersManager developersManager)
         {
             _ticketsManager = ticketsManager;
+            _departmentsManager = departmentsManager;
+            _developersManager = developersManager;
         }
         public IActionResult Index()
         {
@@ -33,10 +39,12 @@ namespace Tickets.MVC.Controllers
         [HttpGet]
         public IActionResult Add()
         {
+            ViewBag.Departments = _departmentsManager.GetAll();
+            ViewBag.Developers = _developersManager.GetAll();
             return View();
         }
         [HttpPost]
-        public IActionResult Add(TicketsVM ticket)
+        public IActionResult Add(AddTicketsVM ticket)
         {
             _ticketsManager.Add(ticket);
             return RedirectToAction(nameof(GetAll));
@@ -44,15 +52,9 @@ namespace Tickets.MVC.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var ticket = _ticketsManager.Get(id);
-            var newTicket = new EditTicketsVM
-            (
-                ticket.Id,
-                ticket.Title,
-                ticket.Description,
-                ticket.Severity
-
-            );
+            var newTicket=_ticketsManager.GetToEdit(id);
+            ViewBag.Departments = _departmentsManager.GetAll();
+            ViewBag.Developers = _developersManager.GetAll();
             return View(newTicket);
         }
         [HttpPost]

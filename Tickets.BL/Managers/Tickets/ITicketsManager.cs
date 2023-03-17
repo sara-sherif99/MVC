@@ -5,14 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Tickets.BL.ViewModels;
 
-namespace Tickets.BL
+namespace Tickets.BL.Managers.Tickets
 {
     public interface ITicketsManager
     {
-        List<TicketsVM> GetAll();
-        TicketsVM? Get(int id);
-        void Add(TicketsVM ticket);
-        void Delete(TicketsVM ticket);
+        List<ViewTicketsVM> GetAll();
+        ViewTicketsVM? Get(int id);
+        EditTicketsVM? GetToEdit(int id);
+        void Add(AddTicketsVM ticket);
+        void Delete(ViewTicketsVM ticket);
         void Update(EditTicketsVM ticket);
 
     }

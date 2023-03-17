@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +8,9 @@ using System.Xml.Linq;
 using Tickets.DAL.Context;
 using Tickets.DAL.Models;
 
-namespace Tickets.DAL.Repositories
+namespace Tickets.DAL.Repositories.Tickets
 {
-    public class TicketsRepo: ITicketsRepo
+    public class TicketsRepo : ITicketsRepo
     {
         private readonly TicketsContext _context;
 
@@ -20,12 +21,17 @@ namespace Tickets.DAL.Repositories
 
         public IEnumerable<Ticket> GetAll()
         {
-            return _context.Set<Ticket>();
+            return _context.Set<Ticket>()
+                .Include(t => t.Department)
+                .Include(t => t.Developers);
         }
 
         public Ticket? Get(int id)
         {
-            return _context.Set<Ticket>().Find(id);
+            return _context.Set<Ticket>()
+                .Include(t=>t.Department)
+                .Include(t=>t.Developers)
+                .FirstOrDefault(t=>t.Id==id);
         }
 
         public void Add(Ticket ticket)

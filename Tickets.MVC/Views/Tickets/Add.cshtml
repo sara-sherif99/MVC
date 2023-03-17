@@ -1,4 +1,4 @@
-﻿@model Tickets.BL.ViewModels.TicketsVM
+﻿@model Tickets.BL.ViewModels.AddTicketsVM
 @using Tickets.DAL.Models
 
 <form asp-action="Add" method="post" class="mt-5 w-50 ms-auto me-auto">
@@ -16,6 +16,14 @@
     <div class="form-group m-4">
         <label asp-for="Severity"></label>
         <select asp-for="Severity" asp-items="Html.GetEnumSelectList<Severity>()"></select>
+    </div>
+    <div class="form-group m-4">
+        <label asp-for="DeptId"></label>
+        <select class="form-control" asp-for="DeptId" asp-items="ViewBag.Departments"></select>
+    </div>
+    <div class="form-group m-4">
+        <label asp-for="Developers"></label>
+        <select class="form-control" asp-for="Developers" asp-items="ViewBag.Developers"></select>
     </div>
     <button class="btn btn-success mt-2 ms-4"> Submit </button>
 </form>

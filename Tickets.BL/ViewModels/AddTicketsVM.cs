@@ -9,23 +9,28 @@ using Tickets.DAL.Models;
 
 namespace Tickets.BL.ViewModels
 {
-    public class TicketsVM
+    public class AddTicketsVM
     {
         public int Id { get; set; }
         public string Title { get; set; }=string.Empty;
         public string Description { get; set; } = string.Empty;
         public Severity Severity { get; set; }
+        [Display(Name = "Department")]
+        public Guid DeptId { get; set; }
+        public Guid[] Developers { get; set; }= Array.Empty<Guid>();
 
-        public TicketsVM()
+        public AddTicketsVM()
         {
 
         }
-        public TicketsVM(int _Id, string _Title, string _Description, Severity _Severity)
+        public AddTicketsVM(int _Id, string _Title, string _Description, Severity _Severity,Guid _DeptId, Guid[] _Developers)
         {
             Id= _Id;
             Title= _Title;
             Description= _Description;
             Severity = _Severity;
+            DeptId = _DeptId;
+            Developers=_Developers;
 
         }
         

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tickets.DAL.Models;
 
-namespace Tickets.DAL.Repositories
+namespace Tickets.DAL.Repositories.Tickets
 {
     public interface ITicketsRepo
     {
