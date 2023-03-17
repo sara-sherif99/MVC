@@ -64,6 +64,12 @@ namespace Tickets.BL.Managers.Tickets
         }
         EditTicketsVM? ITicketsManager.GetToEdit(int id)
         {
+            //TODO: You could enhance performance here by implement a new method in the repo
+            // GetWithDevelopers()
+            //Which will get the ticket and join with the developers
+            //but without joining with the departments
+            //and replace this ticket.Department.Id 
+            //with this ticket.DeptId,
             var ticket = _ticketsRepo.Get(id);
             var newTicket = new EditTicketsVM
             (
@@ -71,7 +77,8 @@ namespace Tickets.BL.Managers.Tickets
                 ticket.Title,
                 ticket.Description,
                 ticket.Severity,
-                ticket.Department.Id,
+                ticket.DeptId,
+                //ticket.Department.Id,
                 ticket.Developers.Select(d=>d.Id).ToArray()
 
             );
