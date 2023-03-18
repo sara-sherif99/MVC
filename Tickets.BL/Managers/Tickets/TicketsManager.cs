@@ -28,7 +28,8 @@ namespace Tickets.BL.Managers.Tickets
                 Title = ticket.Title,
                 Description = ticket.Description,
                 Severity = ticket.Severity,
-                DeptId=ticket.DeptId,
+                DeptId = ticket.DeptId,
+                Image = ticket.ImageName,
                 Department = _departmentsRepo.Get(ticket.DeptId),
                 Developers = _developersRepo.GetAll().Where(d => ticket.Developers.Contains(d.Id)).ToList()
 
@@ -47,7 +48,7 @@ namespace Tickets.BL.Managers.Tickets
 
         ViewTicketsVM? ITicketsManager.Get(int id)
         {
-            var ticket = _ticketsRepo.Get(id);
+            var ticket = _ticketsRepo.GetTicketWithDevelopersAndDepartment(id);
             if (ticket == null)
             {
                 return null;
@@ -59,18 +60,13 @@ namespace Tickets.BL.Managers.Tickets
                     ticket.Description, 
                     ticket.Severity,
                     ticket.Department?.Name??"",
-                    ticket.Developers?.Count()??0
+                    ticket.Developers?.Count()??0,
+                    ticket.Image
                  );
         }
         EditTicketsVM? ITicketsManager.GetToEdit(int id)
         {
-            //TODO: You could enhance performance here by implement a new method in the repo
-            // GetWithDevelopers()
-            //Which will get the ticket and join with the developers
-            //but without joining with the departments
-            //and replace this ticket.Department.Id 
-            //with this ticket.DeptId,
-            var ticket = _ticketsRepo.Get(id);
+            var ticket = _ticketsRepo.GetTicketWithDevelopers(id);
             var newTicket = new EditTicketsVM
             (
                 ticket.Id,
@@ -78,8 +74,8 @@ namespace Tickets.BL.Managers.Tickets
                 ticket.Description,
                 ticket.Severity,
                 ticket.DeptId,
-                //ticket.Department.Id,
-                ticket.Developers.Select(d=>d.Id).ToArray()
+                ticket.Developers.Select(d=>d.Id).ToArray(),
+                ticket.Image
 
             );
             return newTicket;
@@ -88,18 +84,19 @@ namespace Tickets.BL.Managers.Tickets
         List<ViewTicketsVM> ITicketsManager.GetAll()
         {
             var tickets = _ticketsRepo.GetAll();
-            return tickets.Select(t => new ViewTicketsVM(t.Id, t.Title, t.Description, t.Severity,t.Department?.Name??"",t.Developers?.Count()??0))
+            return tickets.Select(t => new ViewTicketsVM(t.Id, t.Title, t.Description, t.Severity,t.Department?.Name??"",t.Developers?.Count()??0,t.Image))
                 .ToList();
         }
 
         void ITicketsManager.Update(EditTicketsVM newTicket)
         {
-            var ticket = _ticketsRepo.Get(newTicket.Id);
+            var ticket = _ticketsRepo.GetTicketWithDevelopersAndDepartment(newTicket.Id);
             ticket.Title = newTicket.Title;
             ticket.Description = newTicket.Description;
             ticket.Severity = newTicket.Severity;
             ticket.DeptId=newTicket.DeptId;
-            ticket.Developers = _developersRepo.GetAll().Where(d=>newTicket.Developers.Contains(d.Id)).ToList();
+            ticket.Developers = _developersRepo.GetAll().Where(d => newTicket.Developers.Contains(d.Id)).ToList();
+            ticket.Image = newTicket.ImageName;
             _ticketsRepo.SaveChanges();
         }
     }

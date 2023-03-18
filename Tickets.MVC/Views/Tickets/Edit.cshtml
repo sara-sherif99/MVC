@@ -1,6 +1,7 @@
 ﻿@model Tickets.BL.ViewModels.EditTicketsVM
 @using Tickets.DAL.Models
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
         <input type="hidden" class="form-control" asp-for="Id" />
     </div>
@@ -24,8 +25,19 @@
         <label asp-for="Developers"></label>
         <select class="form-control" asp-for="Developers" asp-items="ViewBag.Developers"></select>
     </div>
+    <div class="form-group m-4">
+        <label asp-for="Image"></label>
+        <img  class="img-fluid w-50" src="/images/@(@Model.ImageName)" />
+        <input asp-for="Image" type="file" />
+        <span asp-validation-for="Image" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="hidden" class="form-control" asp-for="ImageName" />
+    </div>
     <button class="btn btn-success mt-2 ms-4"> Submit </button>
     <button class="btn btn-outline-info mt-2 ms-4"> <a asp-action="GetAll">Back to List</a> </button>
-
-
 </form>
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    }

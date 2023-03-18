@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,18 +12,21 @@ namespace Tickets.BL.ViewModels
     public class ViewTicketsVM
     {
         public int Id { get; set; }
+
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public Severity Severity { get; set; }
         [Display(Name = "Department Name")]
         public string? DeptName { get; set; }
         public int DevelopersCount { get; set; }
-
+        public string? Image { get; set; }
         public ViewTicketsVM()
         {
 
         }
-        public ViewTicketsVM(int _Id, string _Title, string _Description, Severity _Severity, string _DeptName, int _DevelopersCount)
+        public ViewTicketsVM(int _Id, string _Title, string _Description, 
+            Severity _Severity, string _DeptName, int _DevelopersCount,
+            string _Image)
         {
             Id = _Id;
             Title = _Title;
@@ -30,6 +34,7 @@ namespace Tickets.BL.ViewModels
             Severity = _Severity;
             DeptName = _DeptName;
             DevelopersCount = _DevelopersCount;
+            Image = _Image;
 
         }
     }

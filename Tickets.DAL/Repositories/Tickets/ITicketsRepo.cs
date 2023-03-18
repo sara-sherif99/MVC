@@ -10,7 +10,9 @@ namespace Tickets.DAL.Repositories.Tickets
     public interface ITicketsRepo
     {
         IEnumerable<Ticket> GetAll();
-        Ticket? Get(int id);
+        Ticket? GetTicketWithDepartment(int id);
+        Ticket? GetTicketWithDevelopers(int id);
+        Ticket? GetTicketWithDevelopersAndDepartment(int id);
         void Add(Ticket ticket);
         void Update(Ticket ticket);
         void Delete(int id);

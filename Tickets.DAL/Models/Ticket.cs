@@ -21,6 +21,7 @@ namespace Tickets.DAL.Models
         public Guid DeptId { get; set; }
         public Department? Department { get; set; }
         public ICollection<Developer>? Developers { get; set; } = new HashSet<Developer>();
+        public string? Image { set; get; }
     }
     public class Developer
     {
