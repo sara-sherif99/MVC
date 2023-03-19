@@ -90,6 +90,7 @@ namespace Tickets.BL.Managers.Tickets
 
         void ITicketsManager.Update(EditTicketsVM newTicket)
         {
+            //TODO: Using GetTicketWithDevelopers is enough here no need for the extra join
             var ticket = _ticketsRepo.GetTicketWithDevelopersAndDepartment(newTicket.Id);
             ticket.Title = newTicket.Title;
             ticket.Description = newTicket.Description;
